@@ -5,10 +5,15 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+// configs to use pug templating engine
+app.set('view engine', 'pug');
+// configs express where to compile templates and where to find them
+app.set('views', 'views');
+
 const adminData = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminData.routes);

@@ -2,11 +2,13 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
 
 const app = express();
 
-// configs to use pug templating engine
-app.set('view engine', 'pug');
+// configs to use handlebars templating engine
+app.engine('hbs', expressHbs());
+app.set('view engine', 'hbs');
 // configs express where to compile templates and where to find them
 app.set('views', 'views');
 

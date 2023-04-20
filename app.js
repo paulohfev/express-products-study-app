@@ -7,7 +7,14 @@ const expressHbs = require('express-handlebars');
 const app = express();
 
 // configs to use handlebars templating engine
-app.engine('hbs', expressHbs());
+app.engine(
+  'hbs',
+  expressHbs({
+    layoutsDir: 'views/layouts/',
+    defaultLayout: 'main-layout',
+    extname: 'hbs'
+  })
+);
 app.set('view engine', 'hbs');
 // configs express where to compile templates and where to find them
 app.set('views', 'views');

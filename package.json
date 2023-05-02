@@ -4,7 +4,10 @@
   "description": "Comple Node.js Guide",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js --ignore data/products.json"
+    "start": "nodemon app.js"
+  },
+  "nodemonConfig": {
+    "ignore": ["data/*"]
   },
   "author": "",
   "license": "ISC",

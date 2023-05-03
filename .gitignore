@@ -1,8 +1,8 @@
 # dependencies
 /node_modules
-data/**
-!data/**/
-!data/**/.gitkeep
+/data/**
+!/data/**/
+!/data/**/.gitkeep
 
 # misc
 package-lock.json

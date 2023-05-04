@@ -12,7 +12,12 @@ module.exports = class Product {
   }
 
   save() {
-
+    // prevent SQL injection ~> use of question marks, each for a field and second argument that 
+    // will contain the values that will replace the question marks
+    return db.execute(
+      'INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)',
+      [this.title, this.price, this.imageUrl, this.description]
+    );
   }
 
   static deleteById(id) {

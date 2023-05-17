@@ -17,6 +17,16 @@ const shopRoutes = require('./routes/shop');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then((req) => {
+      // stores the sequelized user in the req user the user field. If done to the body (req.body.user), we would be overriding.
+      req.user = user;
+      next();
+    })
+    .cathch(err => console.log(err));
+});
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
@@ -29,9 +39,20 @@ User.hasMany(Product);
 
 sequelize
   // force true overrides tables with new changes in models, etc. (NOT TO BE USED IN PRODUCTION)
-  .sync({ force: true })
+  .sync()
   .then(result => {
+    // Create a user after the tables have been created.
+    return User.findByPk(1)
     // console.log(result);
+  })
+  .then(user => {
+    if (!user) {
+      return User.create({ name: 'Paulo', email: 'test@test.com' })
+    }
+    return user;
+  })
+  .then(user => {
+    console.log(user)
     app.listen(3000);
   })
   .catch(err => {

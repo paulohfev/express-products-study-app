@@ -19,12 +19,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
   User.findByPk(1)
-    .then((req) => {
+    .then((user) => {
       // stores the sequelized user in the req user the user field. If done to the body (req.body.user), we would be overriding.
       req.user = user;
       next();
     })
-    .cathch(err => console.log(err));
+    .catch(err => console.log(err));
 });
 
 app.use('/admin', adminRoutes);

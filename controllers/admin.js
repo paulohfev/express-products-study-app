@@ -13,7 +13,8 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  Product.create({
+  // creates a connected model through a special association method
+  req.user.createProduct({
     title: title,
     price: price,
     imageUrl: imageUrl,

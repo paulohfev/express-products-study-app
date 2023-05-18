@@ -45,8 +45,8 @@ Product.belongsToMany(Cart, { through: CartItem });
 
 sequelize
   // force true overrides tables with new changes in models, etc. (NOT TO BE USED IN PRODUCTION)
-  .sync({ force: true })
-  // .sync()
+  // .sync({ force: true })
+  .sync()
   .then(result => {
     // Create a user after the tables have been created.
     return User.findByPk(1)
@@ -60,6 +60,9 @@ sequelize
   })
   .then(user => {
     console.log(user)
+    return user.createCart();
+  })
+  .then(cart => {
     app.listen(3000);
   })
   .catch(err => {

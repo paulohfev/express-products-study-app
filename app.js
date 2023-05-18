@@ -5,6 +5,8 @@ const errorController = require('./controllers/error');
 const sequelize = require('./utils/database');
 const Product = require('./models/product');
 const User = require('./models/user');
+const Cart = require('./models/cart');
+const CartItem = require('./models/cart-item');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -36,10 +38,15 @@ app.use(errorController.get404);
   // CASCADE ~> anything belonging to a user would also be deleted
 Product.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(Product);
+User.hasOne(Cart);
+Cart.belongsTo(User);
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
 
 sequelize
   // force true overrides tables with new changes in models, etc. (NOT TO BE USED IN PRODUCTION)
-  .sync()
+  .sync({ force: true })
+  // .sync()
   .then(result => {
     // Create a user after the tables have been created.
     return User.findByPk(1)

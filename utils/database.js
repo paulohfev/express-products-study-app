@@ -1,19 +1,31 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
+let _db;
+
 require('dotenv').config();
 
 const mongoConnect = (callback) => {
   MongoClient.connect(
-    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@cluster0.d0lnwlc.mongodb.net/?retryWrites=true&w=majority`
+    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@cluster0.d0lnwlc.mongodb.net/shop?retryWrites=true&w=majority`
   )
-    .then(result => {
+    .then(client => {
       console.log('Connected');
-      callback(result)
+      _db = client.db();
+      callback();
     })
     .catch(err => {
-      console.log(err)
+      console.log(err);
+      throw err;
     });
 }
 
-module.exports = mongoConnect;
+const getDb = () => {
+  if (_db) {
+    return _db;
+  }
+  throw 'No database found!';
+}
+
+exports.mongoConnect = mongoConnect;
+exports.getDb = getDb;

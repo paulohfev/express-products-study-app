@@ -89,10 +89,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
 
 exports.getOrders = (req, res, next) => {
   req.user
-    // eager loading -> fetch all orders and fetch all related products. Gives back an array of orders that
-    // also includes the products per order.
-    // works because there's a relation between order and products
-    .getOrders({ include: ['products'] })
+    .getOrders()
     .then(orders => {
       res.render('shop/orders', {
         path: '/orders',
